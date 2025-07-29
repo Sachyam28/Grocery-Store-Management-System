@@ -1,6 +1,6 @@
 # 🛒 Grocery Store Management System
 
-This is a **desktop-based Grocery Store Management System** built using **Python (Django + Tkinter)** and **MySQL**. 
+This is a **Grocery Store Management System** built using **Python (Django + Tkinter)** and **MySQL**. 
 It helps administrators manage stock, employees, sales, and billing efficiently through a modern UI with light/dark mode support.
 
 ---
