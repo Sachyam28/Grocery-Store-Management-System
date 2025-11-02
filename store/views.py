@@ -7,7 +7,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Sum, F, ExpressionWrapper, DecimalField
 from django.db.models.functions import TruncDate
-from .models import Product, Category, Employee, Order, OrderItem
+from .models import Product, Category, Employee, Order, OrderItem, Customer
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
@@ -243,3 +243,58 @@ def order_list(request):
 def print_order_invoice(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     return render(request, 'store/invoice_print.html', {'order': order})
+
+# ------------------------------
+#alternative Billing and Invoice Views
+def billing_page(request):
+    products = Product.objects.all()
+
+    if request.method == "POST":
+        cart = request.POST.get("cart_data")  # Will come from JS as JSON
+        customer_name = request.POST.get("customer_name")
+        customer_contact = request.POST.get("customer_contact")
+
+        # Create customer
+        customer = Customer.objects.create(
+            name=customer_name,
+            contact=customer_contact
+        )
+
+        # Create order
+        order = Order.objects.create(customer=customer, total_amount=0)
+
+        total = 0
+        import json
+        cart = json.loads(cart)
+
+        for item in cart:
+            product = Product.objects.get(id=item["id"])
+            qty = int(item["qty"])
+            subtotal = product.price * qty
+
+            # Save order item
+            OrderItem.objects.create(
+                order=order,
+                product=product,
+                quantity=qty,
+                subtotal=subtotal
+            )
+
+            # Reduce stock
+            product.quantity -= qty
+            product.save()
+
+            total += subtotal
+
+        # Update order total
+        order.total_amount = total
+        order.save()
+
+        return redirect("invoice", order_id=order.id)
+
+    return render(request, "store/billing.html", {"products": products})
+
+def invoice_page(request, order_id):
+    order = Order.objects.get(id=order_id)
+    items = order.items.all()
+    return render(request, "store/invoice.html", {"order": order, "items": items})

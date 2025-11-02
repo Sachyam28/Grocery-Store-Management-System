@@ -76,21 +76,21 @@ WSGI_APPLICATION = 'grocery_system.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 
-DATABASES = {
-    'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
-}
+# DATABASES = {
+#     'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
+# }
 
 # Using MySQL database
-# DATABASES = {
-#     'default': {
-#             'ENGINE': 'django.db.backends.mysql',
-#             'NAME': 'grocery_db',
-#             'USER': 'root',
-#             'PASSWORD': '123456',
-#             'HOST': 'localhost',
-#             'PORT': '3306',
-#         }
-# }
+DATABASES = {
+    'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'grocery_db',
+            'USER': 'root',
+            'PASSWORD': '123456',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+}
 
 
 # Password validation

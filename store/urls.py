@@ -23,5 +23,10 @@ urlpatterns = [
     path('dashboard/analytics/', views.dashboard_analytics, name='dashboard_analytics'),
     path('orders/', views.order_list, name='order_list'),
     path('orders/print/<int:order_id>/', views.print_order_invoice, name='print_order_invoice'),
+
+    path('billing/', views.billing_page, name='billing_page'),
+    path('invoice/<int:order_id>/', views.invoice_page, name='invoice'),
+    
+    
 ]
 

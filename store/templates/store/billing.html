@@ -1,0 +1,113 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Billing{% endblock %}
+
+{% block content %}
+
+<h2>🛒 Billing / New Order</h2>
+
+<div class="form-section">
+    <label>Customer Name:</label>
+    <input type="text" id="customer_name" placeholder="Enter customer name">
+
+    <label>Contact:</label>
+    <input type="text" id="customer_contact" placeholder="Phone number">
+</div>
+
+<h3>🛍️ Select Product</h3>
+<select id="product_dropdown" class="dropdown">
+    {% for p in products %}
+        <option value="{{ p.id }}" data-price="{{ p.price }}">
+            {{ p.name }} — ₹{{ p.price }}
+        </option>
+    {% endfor %}
+</select>
+
+<button class="btn" onclick="addItem()">➕ Add Item</button>
+
+<h3>🧾 Cart</h3>
+
+<table class="styled-table" id="cart_table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<h3>Total: ₹<span id="total_amount">0</span></h3>
+
+<form id="checkout_form" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="cart_data" id="cart_data">
+    <input type="hidden" name="customer_name" id="hidden_customer_name">
+    <input type="hidden" name="customer_contact" id="hidden_customer_contact">
+
+    <button type="button" class="btn" onclick="submitOrder()">✅ Checkout</button>
+</form>
+
+<script>
+let cart = [];
+
+function addItem() {
+    const dropdown = document.getElementById("product_dropdown");
+    const id = dropdown.value;
+    const name = dropdown.options[dropdown.selectedIndex].innerText;
+    const price = parseFloat(dropdown.options[dropdown.selectedIndex].dataset.price);
+
+    cart.push({ id, name, price, qty: 1 });
+    renderCart();
+}
+
+function renderCart() {
+    const table = document.querySelector("#cart_table tbody");
+    table.innerHTML = "";
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        const subtotal = item.qty * item.price;
+        total += subtotal;
+
+        table.innerHTML += `
+            <tr>
+                <td>${item.name}</td>
+                <td>${item.qty}</td>
+                <td>₹${item.price}</td>
+                <td>₹${subtotal}</td>
+                <td><button class="btn" onclick="removeItem(${index})">❌ Remove</button></td>
+            </tr>
+        `;
+    });
+
+    document.getElementById("total_amount").innerText = total;
+}
+
+function removeItem(i) {
+    cart.splice(i, 1);
+    renderCart();
+}
+
+function submitOrder() {
+    if (cart.length === 0) {
+        alert("Cart is empty!");
+        return;
+    }
+
+    document.getElementById("cart_data").value = JSON.stringify(cart);
+    document.getElementById("hidden_customer_name").value =
+        document.getElementById("customer_name").value;
+    document.getElementById("hidden_customer_contact").value =
+        document.getElementById("customer_contact").value;
+
+    document.getElementById("checkout_form").submit();
+}
+</script>
+
+{% endblock %}
