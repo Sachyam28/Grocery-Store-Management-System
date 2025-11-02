@@ -6,7 +6,7 @@
     <a href="{% url 'add_product' %}" class="btn">➕ Add New Product</a>
   </div>
   <form method="get" class="search-filter-form">
-  <input type="text" name="q" placeholder="Search product..." value="{{ query }}">
+  <input type="text" name="" placeholder="Search product..." value="{{ query }}">
   <select name="order_by">
     <option value="name" {% if order_by == 'name' %}selected{% endif %}>Name A-Z</option>
     <option value="-name" {% if order_by == '-name' %}selected{% endif %}>Name Z-A</option>
