@@ -1,0 +1,79 @@
+[
+  {
+    "model": "store.category",
+    "pk": 1,
+    "fields": { "name": "Dairy" }
+  },
+  {
+    "model": "store.category",
+    "pk": 2,
+    "fields": { "name": "Snacks" }
+  },
+  {
+    "model": "store.category",
+    "pk": 3,
+    "fields": { "name": "Beverages" }
+  },
+  {
+    "model": "store.product",
+    "pk": 1,
+    "fields": {
+      "name": "Milk 1L",
+      "category": 1,
+      "price": 60,
+      "cost_price": 45,
+      "quantity": 120
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 2,
+    "fields": {
+      "name": "Butter 500g",
+      "category": 1,
+      "price": 250,
+      "cost_price": 200,
+      "quantity": 50
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 3,
+    "fields": {
+      "name": "Chips Packet",
+      "category": 2,
+      "price": 20,
+      "cost_price": 12,
+      "quantity": 300
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 4,
+    "fields": {
+      "name": "Coke 500ml",
+      "category": 3,
+      "price": 40,
+      "cost_price": 25,
+      "quantity": 200
+    }
+  },
+  {
+    "model": "store.customer",
+    "pk": 1,
+    "fields": {
+      "name": "Rahul Sharma",
+      "contact": "9876543210",
+      "email": "rahul@example.com"
+    }
+  },
+  {
+    "model": "store.customer",
+    "pk": 2,
+    "fields": {
+      "name": "Priya Singh",
+      "contact": "9123456789",
+      "email": "priya@example.com"
+    }
+  }
+]
